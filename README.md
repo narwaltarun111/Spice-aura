@@ -150,3 +150,311 @@
   <script src="components/chatbot.js"></script>
 </body>
 </html>
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #d4af37;
+  text-align: center;
+  margin-bottom: .75rem;
+}
+@media (min-width: 768px) {
+  .section-title { font-size: 2.25rem; }
+}
+.section-subtitle {
+  text-align: center;
+  color: #d1d5db;
+  margin-bottom: 3rem;
+}
+
+.btn-gold {
+  display: inline-block;
+  background: #d4af37;
+  color: #000;
+  font-weight: 600;
+  padding: .75rem 1.5rem;
+  border-radius: 999px;
+  transition: .25s;
+}
+.btn-gold:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(212,175,55,.3);
+}
+.btn-outline {
+  display: inline-block;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: .75rem 1.5rem;
+  border-radius: 999px;
+  transition: .25s;
+}
+.btn-outline:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+.menu-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+.menu-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background: #1c1c1c;
+  padding: .75rem;
+  border-radius: .5rem;
+  margin-bottom: 1rem;
+  transition: .25s;
+}
+.menu-card:hover { transform: translateX(4px); }
+.menu-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: .5rem;
+}
+.menu-card h4 {
+  font-weight: 600;
+  font-size: 1.08rem;
+  margin-bottom: .25rem;
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+}
+.menu-card p {
+  font-size: .9rem;
+  color: #d1d5db;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 13rem;
+  object-fit: cover;
+  border-radius: .5rem;
+  transition: .5s;
+}
+.gallery-img:hover { transform: scale(1.05); }
+
+.testimonial-card {
+  background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: .5rem;
+  border: 1px solid rgba(212,175,55,.2);
+}
+.testimonial-card p { color: #e5e7eb; margin-bottom: 1rem; }
+.testimonial-card h4 { color: #d4af37; }
+
+.form-input {
+  width: 100%;
+  background: #222;
+  border: 1px solid rgba(212,175,55,.3);
+  border-radius: .375rem;
+  padding: .75rem 1rem;
+  color: #fff;
+}
+.form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #d4af37;
+}
+
+.fade-up { animation: fadeUp 1s ease both; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+const navbarPlaceholder = document.getElementById('navbar-placeholder');
+const footerPlaceholder = document.getElementById('footer-placeholder');
+
+navbarPlaceholder.innerHTML = `
+<header class="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur border-b border-gold/20">
+  <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#home" class="font-elegant text-2xl text-gold">SpiceAura</a>
+    <button id="menuToggle" class="md:hidden text-gold text-2xl">☰</button>
+    <ul id="navLinks" class="hidden md:flex gap-6 text-sm uppercase tracking-wide">
+      <li><a href="#home" class="hover:text-gold">Home</a></li>
+      <li><a href="#menu" class="hover:text-gold">Menu</a></li>
+      <li><a href="#about" class="hover:text-gold">About</a></li>
+      <li><a href="#reservation" class="hover:text-gold">Reservation</a></li>
+      <li><a href="#contact" class="hover:text-gold">Contact</a></li>
+    </ul>
+  </nav>
+  <ul id="mobileNav" class="hidden md:hidden px-6 pb-4 space-y-2 bg-black/90">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#reservation">Reservation</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</header>`;
+
+footerPlaceholder.innerHTML = `
+<footer class="py-8 text-center border-t border-gold/20 bg-black">
+  <p class="text-sm text-gray-300">© 2026 SpiceAura Kitchen. Crafted with flavor and elegance.</p>
+</footer>`;
+
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'menuToggle') {
+    document.getElementById('mobileNav').classList.toggle('hidden');
+  }
+});
+
+document.getElementById('reservationForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('Thank you! Your table request has been received.');
+});
+
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('Message sent successfully. We will contact you shortly.');
+});
+<div id="aura-chatbot" class="aura-chatbot">
+  <button id="aura-toggle" class="aura-toggle" aria-label="Open AURA chatbot">💬</button>
+  <div id="aura-window" class="aura-window hidden">
+    <div class="aura-header">AURA Assistant</div>
+    <div id="aura-messages" class="aura-messages"></div>
+    <div class="aura-input-row">
+      <input id="aura-input" type="text" placeholder="Ask about menu, timings, location..." />
+      <button id="aura-send">Send</button>
+    </div>
+  </div>
+</div>
+.aura-chatbot {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 100;
+}
+.aura-toggle {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  box-shadow: 0 10px 25px rgba(212,175,55,.35);
+}
+.aura-window {
+  width: 320px;
+  background: #131313;
+  border: 1px solid rgba(212,175,55,.35);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 14px 36px rgba(0,0,0,.45);
+  margin-bottom: .75rem;
+}
+.aura-header {
+  background: #d4af37;
+  color: #111;
+  padding: .7rem 1rem;
+  font-weight: 700;
+}
+.aura-messages {
+  height: 260px;
+  overflow: auto;
+  padding: .8rem;
+  color: #e5e5e5;
+  font-size: .9rem;
+}
+.aura-msg {
+  margin-bottom: .7rem;
+  padding: .55rem .65rem;
+  border-radius: 8px;
+  max-width: 85%;
+}
+.aura-user {
+  background: #2b2b2b;
+  margin-left: auto;
+}
+.aura-bot {
+  background: #1e1e1e;
+  border: 1px solid rgba(212,175,55,.2);
+}
+.aura-input-row {
+  display: flex;
+  border-top: 1px solid #2a2a2a;
+}
+#aura-input {
+  flex: 1;
+  background: #101010;
+  color: white;
+  border: none;
+  padding: .75rem;
+}
+#aura-send {
+  background: #d4af37;
+  color: black;
+  border: none;
+  padding: 0 1rem;
+  font-weight: 600;
+}
+.hidden { display: none; }
+(async function initAura() {
+  const host = document.getElementById('chatbot-placeholder');
+  const html = await fetch('components/chatbot.html').then(r => r.text());
+  host.innerHTML = html;
+
+  const toggle = document.getElementById('aura-toggle');
+  const win = document.getElementById('aura-window');
+  const input = document.getElementById('aura-input');
+  const sendBtn = document.getElementById('aura-send');
+  const messages = document.getElementById('aura-messages');
+
+  const botReplies = {
+    menu: 'We offer Starters, Main Course, Desserts, and Drinks. Try our Royal Butter Chicken and Nawabi Dum Biryani!',
+    hours: 'We are open daily from 12:00 PM to 11:00 PM.',
+    reservation: 'You can reserve a table in the Reservation section. Share your preferred date, time, and guest count.',
+    location: 'We are located near Connaught Place, New Delhi. Check the map in the Contact section.'
+  };
+
+  function addMessage(text, type = 'bot') {
+    const div = document.createElement('div');
+    div.className = `aura-msg ${type === 'user' ? 'aura-user' : 'aura-bot'}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function getReply(q) {
+    const query = q.toLowerCase();
+    if (/(menu|dish|food|eat|starter|dessert|drink)/.test(query)) return botReplies.menu;
+    if (/(time|hour|open|close|timing)/.test(query)) return botReplies.hours;
+    if (/(reserve|reservation|book|table)/.test(query)) return botReplies.reservation;
+    if (/(where|location|address|map)/.test(query)) return botReplies.location;
+    return 'I can help with menu, timings, reservations, and location. Please ask one of these!';
+  }
+
+  function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    input.value = '';
+    setTimeout(() => addMessage(getReply(text), 'bot'), 300);
+  }
+
+  toggle.addEventListener('click', () => win.classList.toggle('hidden'));
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', (e) => e.key === 'Enter' && sendMessage());
+
+  addMessage('Namaste! I’m AURA. Ask me about menu, opening hours, reservation help, or location.');
+})();
+<header class="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur border-b border-gold/20">
+  <!-- Navbar is injected dynamically from script.js for easier mobile interaction -->
+</header>
+<footer class="py-8 text-center border-t border-gold/20 bg-black">
+  <p class="text-sm text-gray-300">© 2026 SpiceAura Kitchen. Crafted with flavor and elegance.</p>
+</footer>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#0e0e0e"/>
+  <path d="M32 12c8 7 13 14 13 22 0 8-6 14-13 14s-13-6-13-14c0-8 5-15 13-22z" fill="#d4af37"/>
+  <circle cx="32" cy="34" r="6" fill="#0e0e0e"/>
+</svg>
+{
+  "cleanUrls": true
+}
